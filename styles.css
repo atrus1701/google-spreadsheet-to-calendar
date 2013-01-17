@@ -1,0 +1,86 @@
+
+/*
+div.gstc-sheet .gstc-day
+{
+	border:solid 1px #CCC;
+	padding:10px;
+	margin-bottom:10px;
+}
+
+div.gstc-sheet .gstc-date
+{
+	padding:5px 10px;
+	background-color:#CCC;
+	font-weight:bold;
+}
+
+div.gstc-sheet .gstc-event
+{
+	padding:5px;
+	border-bottom:solid 1px #CCC;
+}
+
+div.gstc-sheet .gstc-event:last-child
+{
+	border:none;
+	padding-bottom:0px;
+}
+
+div.gstc-sheet label
+{
+	font-weight:bold;
+	text-decoration:italics;
+}
+*/
+
+div.gstc-sheet .gstc-day
+{
+	border:solid 1px #CCC;
+	padding:10px;
+	margin-bottom:10px;
+	min-height:80px;
+}
+
+div.gstc-sheet .gstc-date
+{
+	padding:5px 10px;
+	background-color:#CCC;
+	font-weight:bold;
+	width:100px;
+	text-align:center;
+	display:inline-block;
+	float:left;
+}
+
+div.gstc-sheet .gstc-date .gstc-date-month
+{
+	display:block;
+}
+
+div.gstc-sheet .gstc-date .gstc-date-day
+{
+	display:block;
+	font-size:2em;
+	line-height:48px;
+	height:48px;
+}
+
+div.gstc-sheet .gstc-event
+{
+	padding:5px;
+	border-bottom:dotted 1px #CCC;
+	margin-left:130px;
+}
+
+div.gstc-sheet .gstc-event:last-child
+{
+	border:none;
+	padding-bottom:0px;
+}
+
+div.gstc-sheet label
+{
+	font-weight:bold;
+	text-decoration:italics;
+	color:#000;
+}
