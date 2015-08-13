@@ -1,16 +1,26 @@
 <?php
 /*
 Plugin Name: Google Spreadsheet to Calendar
-Plugin URI: none
-Description: Converts a google spreadsheet with dates and events to a table or agenda-style layout for Wordpress. The Google spreadsheet must include the date in the first column.
-Author: Crystal Barton
+Plugin URI: https://github.com/atrus1701/google-spreadsheet-to-calendar
+Description: Converts a google spreadsheet with dates and events to a table or agenda-style layout for Wordpress.
 Version: 1.0
-Author URI: http://www.uncc.edu
-Alias: gstc
+Author: Crystal Barton
+Author URI: https://www.linkedin.edu/in/crystalbarton
 */
 
-// Function to convert CSV into associative array
-function gstc_csv_to_array($file, $delimiter) 
+
+add_filter( 'the_content', 'gstc_content' );
+add_action( 'wp_head', 'gstc_build_stylesheet_url' );
+
+
+/**
+ * Imports a CSV file into an array.
+ * @param  string  $file  The full path to the CSV file.
+ * @param  string $delimiter  The file delimiter, usually comma (,).
+ * @return  Array  Array form of CSV file.
+ */
+if( !function_exists('gstc_csv_to_array') ):
+function gstc_csv_to_array( $file, $delimiter )
 {
 	if (($handle = fopen($file, 'r')) !== FALSE)
 	{ 
@@ -27,45 +37,70 @@ function gstc_csv_to_array($file, $delimiter)
   	} 
   	return $arr; 
 }
+endif;
 
+
+/**
+ * Get the table html for the an event's layout.
+ * @param  Array  $event  The event information.
+ * @return  string  The html.
+ */
+if( !function_exists('gstc_get_table_layout_for_event') ):
 function gstc_get_table_layout_for_event( $event )
 {
 	$layout = '';
 	
-	for( $col = 1; $col < count($event); $col++ )
+	for( $c = 1; $c < count($event); $c++ )
 	{
-		if( ($event[$col] == 'null') || (trim($event[$col]) == '') ) {
+		if( ($event[$c] == 'null') || (trim($event[$c]) == '') ) {
 			$layout .= '<td></td>';
 			continue;
 		}
 		
-		$layout .= '<td>'.$event[$col].'</td>';
+		$layout .= '<td>'.$event[$c].'</td>';
 	}
 	
 	return $layout;
 }
+endif;
 
+
+/**
+ * Get the div html for the an event's layout.
+ * @param  Array  $event  The event information.
+ * @param  Array  $headers  The associated label names for each event item.
+ * @return  string  The html.
+ */
+if( !function_exists('gstc_get_div_layout_for_event') ):
 function gstc_get_div_layout_for_event( $event, $headers )
 {
 	$layout = '';
 	
-	for( $col = 1; $col < count($event); $col++ )
+	for( $c = 1; $c < count($event); $c++ )
 	{
-		if( ($event[$col] == 'null') || (trim($event[$col]) == '') ) {
+		if( ($event[$c] == 'null') || (trim($event[$c]) == '') ) {
 			continue;
 		}
 		
-		$layout .= '<div class="column'.$col.'">';
+		$layout .= '<div class="column'.$c.'">';
 					
-		if( (count($headers) > $col) && (trim($headers[$col]) !== '') && ($col > 1) )
-			$layout .= '<label>'.$headers[$col].':</label> ';
+		if( (count($headers) > $c) && (trim($headers[$c]) !== '') && ($c > 1) )
+			$layout .= '<label>'.$headers[$c].':</label> ';
 		
-		$layout .= $event[$col] . '</div>';
+		$layout .= $event[$c] . '</div>';
 	}
+
 	return $layout;
 }
- 
+endif;
 
+
+/**
+ * Parse the content for the Spreadsheet to Calendar shortcode.
+ * @param  string  $content  The content.
+ * @return  string  The content with converted shortcode.
+ */
+if( !function_exists('gstc_content') ):
 function gstc_content( $content )
 {
 	$matches = NULL;
@@ -265,10 +300,15 @@ function gstc_content( $content )
 		
 	return $content;
 }
+endif;
 
+
+/**
+ * Print the stylesheet link in the wp head.
+ */
+if( !function_exists('gstc_build_stylesheet_url') ):
 function gstc_build_stylesheet_url() {
     echo '<link rel="stylesheet" href="' . plugin_dir_url( __FILE__ ) . 'styles.css" />';
 }
+endif;
 
-add_filter( 'the_content', 'gstc_content' );
-add_action( 'wp_head', 'gstc_build_stylesheet_url' );
