@@ -3,9 +3,10 @@
 Plugin Name: Google Spreadsheet to Calendar
 Plugin URI: https://github.com/atrus1701/google-spreadsheet-to-calendar
 Description: Converts a google spreadsheet with dates and events to a table or agenda-style layout for Wordpress.
-Version: 1.0
+Version: 1.1.0
 Author: Crystal Barton
 Author URI: https://www.linkedin.edu/in/crystalbarton
+GitHub Plugin URI: https://github.com/clas-web/google-spreadsheet-to-calendar
 */
 
 
